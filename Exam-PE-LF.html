@@ -47,26 +47,32 @@
       background-image:
         linear-gradient(var(--bg-overlay), var(--bg-overlay)),
         url("A.png");
-      background-size: cover, 35% auto;
+      background-size: cover, 20% auto;
       background-position: center center, center center;
       background-repeat: no-repeat, no-repeat;
     }
+    
     body.done-bg {
       background-image:
         linear-gradient(var(--bg-overlay), var(--bg-overlay)),
         url("B.png");
-      background-size: cover, 35% auto;
+      background-size: cover, 20% auto;
       background-position: center center, center center;
       background-repeat: no-repeat, no-repeat;
     }
-    body::before {
+    
+    .done-box::before {
       content: '';
-      position: fixed;
+      position: absolute;
       inset: 0;
-      background-image: radial-gradient(rgba(243, 236, 221, 0.05) 1px, transparent 1px);
-      background-size: 34px 34px;
+      background:
+        linear-gradient(rgba(20, 14, 32, 0.48), rgba(20, 14, 32, 0.48)),
+        url("B.png");
+      background-size: cover, 20% auto;
+      background-position: center center, center center;
+      background-repeat: no-repeat, no-repeat;
+      opacity: 0.35;
       pointer-events: none;
-      z-index: 0;
     }
     .hidden { display: none !important; }
 
