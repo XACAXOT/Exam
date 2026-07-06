@@ -46,14 +46,16 @@
     body.done-bg::before {
       content: '';
       position: fixed;
-      inset: 0 auto 0 0;
-      width: 33vw;
+      top: 0;
+      left: 0;
+      width: 34vw;
+      height: 100vh;
       background-image:
         linear-gradient(var(--bg-overlay), var(--bg-overlay)),
         url("A.png");
       background-size: cover, cover;
-      background-position: center center, center center;
       background-repeat: no-repeat, no-repeat;
+      background-position: left center, left center;
       z-index: 0;
       pointer-events: none;
     }
@@ -62,14 +64,16 @@
     body.done-bg::after {
       content: '';
       position: fixed;
-      inset: 0 0 0 auto;
-      width: 33vw;
+      top: 0;
+      right: 0;
+      width: 34vw;
+      height: 100vh;
       background-image:
         linear-gradient(var(--bg-overlay), var(--bg-overlay)),
         url("A.png");
       background-size: cover, cover;
-      background-position: center center, center center;
       background-repeat: no-repeat, no-repeat;
+      background-position: right center, right center;
       z-index: 0;
       pointer-events: none;
     }
