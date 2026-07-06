@@ -1,4 +1,20 @@
-<!DOCTYPE html>
+import os
+import base64
+
+output_dir = r"C:/Users/Hhotait/OneDrive - RAILENIUM/Bureau/QA/"
+os.makedirs(output_dir, exist_ok=True)
+
+img1_path = os.path.join(output_dir, "A.png")      # photo 1
+img2_path = os.path.join(output_dir, "B.png")    # photo 2
+
+def to_b64(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode("utf-8")
+
+img1_b64 = to_b64(img1_path)
+img2_b64 = to_b64(img2_path)
+
+html = f'''<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -8,11 +24,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-deep: #191228;
-      --bg-mid: #241a38;
-      --surface: #2a1f40;
-      --surface-2: #33254c;
+    :root {{
+      --bg-overlay: rgba(10, 6, 20, 0.62);
+      --surface: rgba(42, 31, 64, 0.90);
+      --surface-2: rgba(51, 37, 76, 0.92);
       --text: #f3ecdd;
       --text-muted: #b3a3c9;
       --gold: #d8ab5c;
@@ -26,102 +41,115 @@
       --font-display: 'Cormorant Garamond', serif;
       --font-arabic: 'Amiri', serif;
       --font-body: 'Inter', system-ui, sans-serif;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
-    body {
+    }}
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    html, body {{ height: 100%; }}
+    body {{
       font-family: var(--font-body);
       color: var(--text);
       min-height: 100vh;
       display: grid;
       place-items: center;
       padding: 2rem;
-      background:
-        radial-gradient(ellipse 900px 500px at 50% -10%, rgba(216, 171, 92, 0.16), transparent 60%),
-        radial-gradient(ellipse 700px 500px at 90% 100%, rgba(209, 102, 138, 0.10), transparent 60%),
-        linear-gradient(160deg, var(--bg-deep), var(--bg-mid) 55%, var(--bg-deep));
+      background-size: cover;
+      background-position: center center;
       background-attachment: fixed;
+      background-repeat: no-repeat;
       position: relative;
       overflow-x: hidden;
-    }
-    body::before {
+      transition: background-image 0.5s ease;
+    }}
+    body.exam-bg {{
+      background-image:
+        linear-gradient(var(--bg-overlay), var(--bg-overlay)),
+        url("data:image/jpeg;base64,{img1_b64}");
+    }}
+    body.done-bg {{
+      background-image:
+        linear-gradient(var(--bg-overlay), var(--bg-overlay)),
+        url("data:image/jpeg;base64,{img2_b64}");
+    }}
+    body::before {{
       content: '';
       position: fixed;
       inset: 0;
       background-image: radial-gradient(rgba(243, 236, 221, 0.05) 1px, transparent 1px);
       background-size: 34px 34px;
       pointer-events: none;
-    }
-    .hidden { display: none !important; }
+      z-index: 0;
+    }}
+    .hidden {{ display: none !important; }}
 
-    .container {
-      width: min(720px, 100%);
+    .container {{
+      width: min(760px, 100%);
       background: linear-gradient(180deg, var(--surface), var(--surface-2));
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
       padding: 3rem 2.75rem;
       position: relative;
+      z-index: 1;
       animation: rise 0.6s ease both;
-    }
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .corner {
+      backdrop-filter: blur(6px);
+    }}
+    @keyframes rise {{
+      from {{ opacity: 0; transform: translateY(14px); }}
+      to {{ opacity: 1; transform: translateY(0); }}
+    }}
+    .corner {{
       position: absolute;
       width: 26px;
       height: 26px;
       border: 1.5px solid var(--gold);
       opacity: 0.65;
-    }
-    .corner.tl { top: 14px; left: 14px; border-right: none; border-bottom: none; border-top-left-radius: 6px; }
-    .corner.tr { top: 14px; right: 14px; border-left: none; border-bottom: none; border-top-right-radius: 6px; }
-    .corner.bl { bottom: 14px; left: 14px; border-right: none; border-top: none; border-bottom-left-radius: 6px; }
-    .corner.br { bottom: 14px; right: 14px; border-left: none; border-top: none; border-bottom-right-radius: 6px; }
+    }}
+    .corner.tl {{ top: 14px; left: 14px; border-right: none; border-bottom: none; border-top-left-radius: 6px; }}
+    .corner.tr {{ top: 14px; right: 14px; border-left: none; border-bottom: none; border-top-right-radius: 6px; }}
+    .corner.bl {{ bottom: 14px; left: 14px; border-right: none; border-top: none; border-bottom-left-radius: 6px; }}
+    .corner.br {{ bottom: 14px; right: 14px; border-left: none; border-top: none; border-bottom-right-radius: 6px; }}
 
-    h1 {
+    h1 {{
       font-family: var(--font-display);
       font-size: 2.5rem;
       font-weight: 600;
       letter-spacing: 0.01em;
       margin-bottom: 0.6rem;
       color: var(--gold-bright);
-    }
-    .flourish {
+    }}
+    .flourish {{
       display: flex;
       align-items: center;
       gap: 0.7rem;
       margin-bottom: 1.4rem;
-    }
-    .flourish::before, .flourish::after {
+    }}
+    .flourish::before, .flourish::after {{
       content: '';
       flex: 1;
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
-    .flourish span {
+    }}
+    .flourish span {{
       width: 6px;
       height: 6px;
       background: var(--gold);
       transform: rotate(45deg);
       flex-shrink: 0;
-    }
-    .subtitle {
+    }}
+    .subtitle {{
       color: var(--text-muted);
       margin-bottom: 2.2rem;
       font-size: 0.98rem;
       line-height: 1.65;
-    }
-    label {
+    }}
+    label {{
       font-family: var(--font-display);
       font-weight: 600;
       font-size: 1.02rem;
       margin-bottom: 0.5rem;
       display: block;
       color: var(--text);
-    }
-    input, textarea {
+    }}
+    input, textarea {{
       width: 100%;
       padding: 0.95rem 1.1rem;
       border: 1px solid var(--border);
@@ -131,20 +159,20 @@
       background: rgba(25, 18, 40, 0.55);
       color: var(--text);
       transition: border 0.2s, box-shadow 0.2s, background 0.2s;
-    }
-    input::placeholder, textarea::placeholder { color: rgba(179, 163, 201, 0.55); }
-    input:focus, textarea:focus {
+    }}
+    input::placeholder, textarea::placeholder {{ color: rgba(179, 163, 201, 0.55); }}
+    input:focus, textarea:focus {{
       outline: none;
       border-color: var(--gold);
       background: rgba(25, 18, 40, 0.8);
       box-shadow: 0 0 0 3px rgba(216, 171, 92, 0.18);
-    }
-    textarea {
+    }}
+    textarea {{
       resize: vertical;
       min-height: 160px;
       line-height: 1.6;
-    }
-    button {
+    }}
+    button {{
       padding: 0.95rem 1.9rem;
       border: none;
       border-radius: 10px;
@@ -154,22 +182,16 @@
       font-weight: 600;
       letter-spacing: 0.01em;
       transition: transform 0.12s, box-shadow 0.2s, filter 0.2s;
-    }
-    button:active { transform: translateY(1px); }
-    .primary {
+    }}
+    button:active {{ transform: translateY(1px); }}
+    .primary {{
       background: linear-gradient(135deg, var(--gold-bright), var(--gold));
       color: #241a38;
       box-shadow: 0 8px 22px rgba(216, 171, 92, 0.28);
-    }
-    .primary:hover { filter: brightness(1.06); box-shadow: 0 10px 26px rgba(216, 171, 92, 0.4); }
-    .secondary {
-      background: transparent;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-    .secondary:hover { color: var(--text); border-color: var(--gold); }
+    }}
+    .primary:hover {{ filter: brightness(1.06); box-shadow: 0 10px 26px rgba(216, 171, 92, 0.4); }}
 
-    .meta {
+    .meta {{
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -180,24 +202,24 @@
       background: rgba(25, 18, 40, 0.45);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-    }
-    .meta-item {
+    }}
+    .meta-item {{
       display: flex;
       gap: 0.5rem;
       align-items: baseline;
-    }
-    .meta-item small {
+    }}
+    .meta-item small {{
       color: var(--text-muted);
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-    }
-    .meta-item strong {
+    }}
+    .meta-item strong {{
       font-size: 0.95rem;
       font-family: var(--font-display);
       font-weight: 600;
-    }
-    .timer {
+    }}
+    .timer {{
       padding: 0.35rem 0.95rem;
       border-radius: 20px;
       font-weight: 700;
@@ -206,81 +228,99 @@
       background: rgba(216, 171, 92, 0.16);
       color: var(--gold-bright);
       border: 1px solid rgba(216, 171, 92, 0.4);
-    }
-    .timer.warning {
+    }}
+    .timer.warning {{
       background: var(--rose-bg);
       color: var(--rose);
       border-color: rgba(209, 102, 138, 0.55);
       animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
+    }}
+    @keyframes pulse {{
+      0%, 100% {{ opacity: 1; }}
+      50% {{ opacity: 0.6; }}
+    }}
 
-    .beads {
+    .beads {{
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       margin-bottom: 2rem;
-    }
-    .bead {
+    }}
+    .bead {{
       width: 9px;
       height: 9px;
       border-radius: 50%;
       background: rgba(216, 171, 92, 0.18);
       border: 1px solid rgba(216, 171, 92, 0.35);
       transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
-    }
-    .bead.filled {
+    }}
+    .bead.filled {{
       background: var(--gold-bright);
       box-shadow: 0 0 8px rgba(238, 194, 127, 0.7);
       transform: scale(1.15);
-    }
-    .bead.current {
+    }}
+    .bead.current {{
       border-color: var(--gold-bright);
       transform: scale(1.3);
-    }
+    }}
 
-    .question-label {
+    .question-label {{
       color: var(--gold);
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.16em;
       margin-bottom: 0.6rem;
       font-weight: 600;
-    }
-    .question-title {
+    }}
+    .question-title {{
       font-family: var(--font-arabic);
       font-size: 1.55rem;
       margin-bottom: 1.3rem;
       line-height: 1.9;
       white-space: pre-wrap;
       color: var(--text);
-    }
-    .question-title, #answerBox { direction: rtl; text-align: right; }
+    }}
+    .question-title, #answerBox {{ direction: rtl; text-align: right; }}
 
-    .done-box {
+    .done-box {{
       background: rgba(25, 18, 40, 0.45);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1.6rem;
       margin-bottom: 1.6rem;
-    }
-    .done-box > h3 {
+      overflow: hidden;
+      position: relative;
+    }}
+    .done-box::before {{
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(20, 14, 32, 0.48), rgba(20, 14, 32, 0.48)),
+        url("data:image/jpeg;base64,{img2_b64}");
+      background-size: cover;
+      background-position: center center;
+      opacity: 0.35;
+      pointer-events: none;
+    }}
+    .done-box > * {{
+      position: relative;
+      z-index: 1;
+    }}
+    .done-box > h3 {{
       font-family: var(--font-display);
       font-size: 1.2rem;
       color: var(--gold-bright);
       font-weight: 600;
-    }
-    .answer-item {
+    }}
+    .answer-item {{
       padding: 1rem 1.1rem;
       margin-bottom: 0.9rem;
       background: rgba(51, 37, 76, 0.5);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-    }
-    .answer-item h3 {
+    }}
+    .answer-item h3 {{
       font-size: 0.72rem;
       margin-bottom: 0.5rem;
       color: var(--gold);
@@ -288,8 +328,8 @@
       letter-spacing: 0.12em;
       font-family: var(--font-body);
       font-weight: 600;
-    }
-    .answer-item .q {
+    }}
+    .answer-item .q {{
       font-family: var(--font-arabic);
       font-weight: 400;
       margin-bottom: 0.5rem;
@@ -298,37 +338,38 @@
       text-align: right;
       color: var(--text);
       font-size: 1.05rem;
-    }
-    .answer-item .a {
+    }}
+    .answer-item .a {{
       color: var(--text-muted);
       white-space: pre-wrap;
       font-size: 0.95rem;
       direction: auto;
-    }
-    #fullText { direction: auto; text-align: left; }
+    }}
+    #fullText {{ direction: auto; text-align: left; }}
 
-    .actions {
+    .actions {{
       display: flex;
       gap: 1rem;
       margin-top: 1.6rem;
-    }
-    .actions button { flex: 1; }
-    .summary {
+    }}
+    .actions button {{ flex: 1; }}
+    .summary {{
       color: var(--text-muted);
       margin-bottom: 1.2rem;
       font-size: 0.98rem;
       line-height: 1.6;
-    }
-    @media (max-width: 600px) {
-      body { padding: 1.1rem; }
-      .container { padding: 2rem 1.5rem; }
-      h1 { font-size: 2rem; }
-      .meta { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
-      .actions { flex-direction: column; }
-    }
+    }}
+
+    @media (max-width: 600px) {{
+      body {{ padding: 1.1rem; }}
+      .container {{ padding: 2rem 1.5rem; }}
+      h1 {{ font-size: 2rem; }}
+      .meta {{ flex-direction: column; align-items: flex-start; gap: 0.6rem; }}
+      .actions {{ flex-direction: column; }}
+    }}
   </style>
 </head>
-<body>
+<body class="exam-bg">
   <div class="container">
     <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
 
@@ -424,46 +465,48 @@
 
     const el = (id) => document.getElementById(id);
 
-    function initBeads() {
+    function initBeads() {{
       const beads = el('beads');
       beads.innerHTML = '';
-      questions.forEach(() => {
+      questions.forEach(() => {{
         const b = document.createElement('span');
         b.className = 'bead';
         beads.appendChild(b);
-      });
-    }
+      }});
+    }}
 
-    function updateBeads() {
+    function updateBeads() {{
       const beadEls = el('beads').children;
-      for (let i = 0; i < beadEls.length; i++) {
+      for (let i = 0; i < beadEls.length; i++) {{
         beadEls[i].classList.toggle('filled', i < currentIndex);
         beadEls[i].classList.toggle('current', i === currentIndex);
-      }
-    }
+      }}
+    }}
 
-    function startExam() {
+    function startExam() {{
       const name = el('name').value.trim();
       const email = el('email').value.trim();
-      if (!name || !email) {
+      if (!name || !email) {{
         alert("Veuillez saisir le nom et l'email.");
         return;
-      }
+      }}
       candidateName = name;
       candidateEmail = email;
       currentIndex = 0;
       answers = Array(questions.length).fill("");
+      document.body.classList.add('exam-bg');
+      document.body.classList.remove('done-bg');
       el('startScreen').classList.add('hidden');
       el('doneScreen').classList.add('hidden');
       el('examScreen').classList.remove('hidden');
-      el('candidateInfo').textContent = `${candidateName} (${candidateEmail})`;
+      el('candidateInfo').textContent = `${{candidateName}} (${{candidateEmail}})`;
       initBeads();
       renderQuestion();
       startTimer();
-    }
+    }}
 
-    function renderQuestion() {
-      el('qIndex').textContent = `${currentIndex + 1} / ${questions.length}`;
+    function renderQuestion() {{
+      el('qIndex').textContent = `${{currentIndex + 1}} / ${{questions.length}}`;
       el('questionText').textContent = questions[currentIndex];
       el('answerBox').value = answers[currentIndex] || '';
       timerValue = 60;
@@ -471,51 +514,53 @@
       el('timer').classList.remove('warning');
       updateBeads();
       el('answerBox').focus();
-    }
+    }}
 
-    function startTimer() {
+    function startTimer() {{
       if (timerId) clearInterval(timerId);
-      timerId = setInterval(() => {
+      timerId = setInterval(() => {{
         timerValue -= 1;
         const m = String(Math.floor(timerValue / 60)).padStart(2, '0');
         const s = String(timerValue % 60).padStart(2, '0');
-        el('timer').textContent = `${m}:${s}`;
+        el('timer').textContent = `${{m}}:${{s}}`;
         if (timerValue <= 15) el('timer').classList.add('warning');
-        if (timerValue <= 0) {
+        if (timerValue <= 0) {{
           saveAnswer();
           nextQuestion();
-        }
-      }, 1000);
-    }
+        }}
+      }}, 1000);
+    }}
 
-    function saveAnswer() {
+    function saveAnswer() {{
       answers[currentIndex] = el('answerBox').value.trim();
-    }
+    }}
 
-    function nextQuestion() {
+    function nextQuestion() {{
       saveAnswer();
-      if (currentIndex >= questions.length - 1) {
+      if (currentIndex >= questions.length - 1) {{
         finishExam();
         return;
-      }
+      }}
       currentIndex += 1;
       renderQuestion();
       startTimer();
-    }
+    }}
 
-    function finishExam() {
+    function finishExam() {{
       if (timerId) clearInterval(timerId);
+      document.body.classList.remove('exam-bg');
+      document.body.classList.add('done-bg');
       el('examScreen').classList.add('hidden');
       el('doneScreen').classList.remove('hidden');
       const answeredCount = answers.filter(a => a).length;
-      el('summaryText').textContent = `${candidateName} (${candidateEmail}) a terminé l'examen. ${answeredCount} réponses sur ${questions.length} contiennent du texte.`;
+      el('summaryText').textContent = `${{candidateName}} (${{candidateEmail}}) a terminé l'examen. ${{answeredCount}} réponses sur ${{questions.length}} contiennent du texte.`;
       const list = el('answersList');
       list.innerHTML = '';
-      questions.forEach((q, i) => {
+      questions.forEach((q, i) => {{
         const item = document.createElement('div');
         item.className = 'answer-item';
         const h3 = document.createElement('h3');
-        h3.textContent = `Question ${i + 1}`;
+        h3.textContent = `Question ${{i + 1}}`;
         const qDiv = document.createElement('div');
         qDiv.className = 'q';
         qDiv.textContent = q;
@@ -526,19 +571,25 @@
         item.appendChild(qDiv);
         item.appendChild(aDiv);
         list.appendChild(item);
-      });
-      const lines = answers.map((a, i) => `Question ${i + 1}: ${questions[i]}\nRéponse: ${a || '[Aucune réponse]'}`);
-      el('fullText').value = `Nom: ${candidateName}\nEmail: ${candidateEmail}\n\n${lines.join('\n\n--------------------------------\n\n')}`;
-    }
+      }});
+      const lines = answers.map((a, i) => `Question ${{i + 1}}: ${{questions[i]}}\\nRéponse: ${{a || '[Aucune réponse]'}}`);
+      el('fullText').value = `Nom: ${{candidateName}}\\nEmail: ${{candidateEmail}}\\n\\n${{lines.join('\\n\\n--------------------------------\\n\\n')}}`;
+    }}
 
-    function sendEmail() {
+    function sendEmail() {{
       const to = 'hassane.hotait@hotmail.com';
-      const subject = `Examen écrit - ${candidateName}`;
+      const subject = `Examen écrit - ${{candidateName}}`;
       const body = el('fullText').value;
-      window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    }
+      window.location.href = `mailto:${{to}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
+    }}
 
     el('answerBox').addEventListener('input', saveAnswer);
   </script>
 </body>
 </html>
+'''
+
+with open(os.path.join(output_dir, "Exam-PE-LF.html"), "w", encoding="utf-8") as f:
+    f.write(html)
+
+print(os.path.join(output_dir, "Exam-PE-LF.html"))
