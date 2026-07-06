@@ -58,4 +58,516 @@
       position: fixed;
       inset: 0;
       background-image: radial-gradient(rgba(243, 236, 221, 0.05) 1px, transparent 1px);
-      backgr
+      background-size: 34px 34px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hidden { display: none !important; }
+
+    .container {
+      width: min(760px, 100%);
+      background: linear-gradient(180deg, var(--surface), var(--surface-2));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 3rem 2.75rem;
+      position: relative;
+      z-index: 1;
+      animation: rise 0.6s ease both;
+      backdrop-filter: blur(6px);
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .corner {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border: 1.5px solid var(--gold);
+      opacity: 0.65;
+    }
+    .corner.tl { top: 14px; left: 14px; border-right: none; border-bottom: none; border-top-left-radius: 6px; }
+    .corner.tr { top: 14px; right: 14px; border-left: none; border-bottom: none; border-top-right-radius: 6px; }
+    .corner.bl { bottom: 14px; left: 14px; border-right: none; border-top: none; border-bottom-left-radius: 6px; }
+    .corner.br { bottom: 14px; right: 14px; border-left: none; border-top: none; border-bottom-right-radius: 6px; }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      margin-bottom: 0.6rem;
+      color: var(--gold-bright);
+    }
+    .flourish {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1.4rem;
+    }
+    .flourish::before, .flourish::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .flourish span {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      margin-bottom: 2.2rem;
+      font-size: 0.98rem;
+      line-height: 1.65;
+    }
+    label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.02rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      color: var(--text);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.95rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      background: rgba(25, 18, 40, 0.55);
+      color: var(--text);
+      transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    input::placeholder, textarea::placeholder { color: rgba(179, 163, 201, 0.55); }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(25, 18, 40, 0.8);
+      box-shadow: 0 0 0 3px rgba(216, 171, 92, 0.18);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 160px;
+      line-height: 1.6;
+    }
+    button {
+      padding: 0.95rem 1.9rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: transform 0.12s, box-shadow 0.2s, filter 0.2s;
+    }
+    button:active { transform: translateY(1px); }
+    .primary {
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+      color: #241a38;
+      box-shadow: 0 8px 22px rgba(216, 171, 92, 0.28);
+    }
+    .primary:hover { filter: brightness(1.06); box-shadow: 0 10px 26px rgba(216, 171, 92, 0.4); }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.6rem;
+      padding: 0.9rem 1.2rem;
+      background: rgba(25, 18, 40, 0.45);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .meta-item {
+      display: flex;
+      gap: 0.5rem;
+      align-items: baseline;
+    }
+    .meta-item small {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .meta-item strong {
+      font-size: 0.95rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+    }
+    .timer {
+      padding: 0.35rem 0.95rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+      background: rgba(216, 171, 92, 0.16);
+      color: var(--gold-bright);
+      border: 1px solid rgba(216, 171, 92, 0.4);
+    }
+    .timer.warning {
+      background: var(--rose-bg);
+      color: var(--rose);
+      border-color: rgba(209, 102, 138, 0.55);
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .beads {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 2rem;
+    }
+    .bead {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(216, 171, 92, 0.18);
+      border: 1px solid rgba(216, 171, 92, 0.35);
+      transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .bead.filled {
+      background: var(--gold-bright);
+      box-shadow: 0 0 8px rgba(238, 194, 127, 0.7);
+      transform: scale(1.15);
+    }
+    .bead.current {
+      border-color: var(--gold-bright);
+      transform: scale(1.3);
+    }
+
+    .question-label {
+      color: var(--gold);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 0.6rem;
+      font-weight: 600;
+    }
+    .question-title {
+      font-family: var(--font-arabic);
+      font-size: 1.55rem;
+      margin-bottom: 1.3rem;
+      line-height: 1.9;
+      white-space: pre-wrap;
+      color: var(--text);
+    }
+    .question-title, #answerBox { direction: rtl; text-align: right; }
+
+    .done-box {
+      background: rgba(25, 18, 40, 0.45);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+      margin-bottom: 1.6rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .done-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(20, 14, 32, 0.48), rgba(20, 14, 32, 0.48)),
+        url("data:image/jpeg;base64,REPLACE_IMAGE_2_BASE64_HERE");
+      background-size: cover;
+      background-position: center center;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .done-box > * {
+      position: relative;
+      z-index: 1;
+    }
+    .done-box > h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--gold-bright);
+      font-weight: 600;
+    }
+    .answer-item {
+      padding: 1rem 1.1rem;
+      margin-bottom: 0.9rem;
+      background: rgba(51, 37, 76, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .answer-item h3 {
+      font-size: 0.72rem;
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-family: var(--font-body);
+      font-weight: 600;
+    }
+    .answer-item .q {
+      font-family: var(--font-arabic);
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      white-space: pre-wrap;
+      direction: rtl;
+      text-align: right;
+      color: var(--text);
+      font-size: 1.05rem;
+    }
+    .answer-item .a {
+      color: var(--text-muted);
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      direction: auto;
+    }
+    #fullText { direction: auto; text-align: left; }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+    .actions button { flex: 1; }
+    .summary {
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 1.1rem; }
+      .container { padding: 2rem 1.5rem; }
+      h1 { font-size: 2rem; }
+      .meta { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+      .actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body class="exam-bg">
+  <div class="container">
+    <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+
+    <div id="startScreen">
+      <h1>Examen écrit</h1>
+      <div class="flourish"><span></span></div>
+      <p class="subtitle">30 questions à texte libre. 1 minute par question. Passage automatique. Impossible de revenir en arrière.</p>
+      <div style="margin-bottom:1.5rem;">
+        <label for="name">Nom complet</label>
+        <input id="name" type="text" placeholder="Ex: Hassane Hotait" autocomplete="name">
+      </div>
+      <div style="margin-bottom:1.8rem;">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="exemple@email.com" autocomplete="email">
+      </div>
+      <button class="primary" onclick="startExam()" style="width:100%">Commencer l'examen</button>
+    </div>
+
+    <div id="examScreen" class="hidden">
+      <div class="meta">
+        <div class="meta-item"><small>Candidat</small> <strong id="candidateInfo"></strong></div>
+        <div class="meta-item"><small>Question</small> <strong id="qIndex"></strong></div>
+        <span id="timer" class="timer">01:00</span>
+      </div>
+      <div class="beads" id="beads"></div>
+      <div class="question">
+        <div class="question-label">Question</div>
+        <h2 class="question-title" id="questionText"></h2>
+        <textarea id="answerBox" placeholder="اكتبي جوابك هون..." dir="rtl"></textarea>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.6rem; gap:1rem; flex-wrap:wrap;">
+        <span style="color:var(--text-muted); font-size:0.88rem;">Réponse enregistrée automatiquement</span>
+        <button class="primary" onclick="nextQuestion()">Question suivante</button>
+      </div>
+    </div>
+
+    <div id="doneScreen" class="hidden">
+      <h1>Examen terminé</h1>
+      <div class="flourish"><span></span></div>
+      <p class="summary" id="summaryText"></p>
+      <div class="done-box">
+        <h3 style="margin-bottom:1rem;">Réponses par question</h3>
+        <div id="answersList"></div>
+        <h3 style="margin:1.6rem 0 1rem 0;">Copie complète</h3>
+        <textarea id="fullText" readonly style="min-height:280px;"></textarea>
+      </div>
+      <div class="actions">
+        <button class="primary" onclick="sendEmail()" style="width:100%">Envoyer par email</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      "شو أهم قيمة تربّيتِ عليها؟",
+      "شو أكتر شيء بيفرحِك يومياً؟",
+      "شو الأشياء الصغيرة يلي بتخلي يومك أحسن؟",
+      "شو أكتر شيء بيوتّرك أو يقلقِك؟",
+      "إذا صار عندك يوم كامل لنفسك شو بتعملي؟",
+      "كيف بتفضلي تقضي عطلة نهاية الأسبوع؟",
+      "هل بتحبي تتطوّري نفسياً أو روحياً؟ وإذا نعم، بأي طرق؟",
+      "شو الهوايات يلي بتحبي تمارسيها؟",
+      "شو أكتر لحظة شخصية فخورة فيها بحياتك لحد الآن؟",
+      "بتحبي التخطيط للمستقبل ولا تميلِ للعيش في اللحظة؟",
+      "كيف بتتعاملِي مع الضغوط في الشغل؟",
+      "شو طموحك المهني للسنوات الجاية؟",
+      "إذا صار عندك فرصة تغيير مهنة، بتختاري ايش؟",
+      "كيف بتقيّمي التوازن بين عملك وحياتك الشخصية؟",
+      "شو أهم سبب يخليكي تنفصلي عن شخص؟",
+      "شو أكثر صفة بتقدّريها بشريك الحياة؟",
+      "شو أقل صفة ممكن تتغاضي عنها؟",
+      "لو حكيتِ عن علاقة مثالية، كيف بتكون بالنسبة إلك؟",
+      "كيف بتحبي تُعبّري عن محبتك (أفعال، كلام، هدايا، وقت)؟",
+      "كيف بتتعاملِي مع الاختلافات في الرأي بينك وبين شريك؟",
+      "بتحبي تخلطي بين الأصدقاء والعيلة ولا بتحافظي على حدود؟",
+      "شو موقفك من مواجهة المشاكل مباشرة أو تأجيلها؟",
+      "هل عندِك حدود شخصية ما بتحبي حدا يتخطاها؟ شو هي؟",
+      "شو أهم درس تعلمتيه من علاقاتك السابقة؟",
+      "شو الأشياء يلي بتحسِبها ضرورية لبناء ثقة بالعلاقة؟",
+      "بتحبي المفاجآت أم تفضلي الاتفاق المسبق؟",
+      "شو رأيك بالأمور المالية المشتركة في العلاقة (حساب مشترك، تقاسم مصاريف)؟",
+      "كيف بتديري ميزانيتِك الشخصية عادة؟",
+      "شو حدود التواصل مع تكنولوجيا الهواتف (الخصوصية، السوشال ميديا) بالنسبة إلك؟",
+      "شو هي الاسئلة الي بتحبي أسألك ياهن وما بتحبي اسئلك ياهن"
+    ];
+
+    let currentIndex = 0;
+    let answers = Array(questions.length).fill("");
+    let timerValue = 60;
+    let timerId = null;
+    let candidateName = "";
+    let candidateEmail = "";
+
+    const el = (id) => document.getElementById(id);
+
+    function initBeads() {
+      const beads = el('beads');
+      beads.innerHTML = '';
+      questions.forEach(() => {
+        const b = document.createElement('span');
+        b.className = 'bead';
+        beads.appendChild(b);
+      });
+    }
+
+    function updateBeads() {
+      const beadEls = el('beads').children;
+      for (let i = 0; i < beadEls.length; i++) {
+        beadEls[i].classList.toggle('filled', i < currentIndex);
+        beadEls[i].classList.toggle('current', i === currentIndex);
+      }
+    }
+
+    function startExam() {
+      const name = el('name').value.trim();
+      const email = el('email').value.trim();
+      if (!name || !email) {
+        alert("Veuillez saisir le nom et l'email.");
+        return;
+      }
+      candidateName = name;
+      candidateEmail = email;
+      currentIndex = 0;
+      answers = Array(questions.length).fill("");
+      document.body.classList.add('exam-bg');
+      document.body.classList.remove('done-bg');
+      el('startScreen').classList.add('hidden');
+      el('doneScreen').classList.add('hidden');
+      el('examScreen').classList.remove('hidden');
+      el('candidateInfo').textContent = `${candidateName} (${candidateEmail})`;
+      initBeads();
+      renderQuestion();
+      startTimer();
+    }
+
+    function renderQuestion() {
+      el('qIndex').textContent = `${currentIndex + 1} / ${questions.length}`;
+      el('questionText').textContent = questions[currentIndex];
+      el('answerBox').value = answers[currentIndex] || '';
+      timerValue = 60;
+      el('timer').textContent = '01:00';
+      el('timer').classList.remove('warning');
+      updateBeads();
+      el('answerBox').focus();
+    }
+
+    function startTimer() {
+      if (timerId) clearInterval(timerId);
+      timerId = setInterval(() => {
+        timerValue -= 1;
+        const m = String(Math.floor(timerValue / 60)).padStart(2, '0');
+        const s = String(timerValue % 60).padStart(2, '0');
+        el('timer').textContent = `${m}:${s}`;
+        if (timerValue <= 15) el('timer').classList.add('warning');
+        if (timerValue <= 0) {
+          saveAnswer();
+          nextQuestion();
+        }
+      }, 1000);
+    }
+
+    function saveAnswer() {
+      answers[currentIndex] = el('answerBox').value.trim();
+    }
+
+    function nextQuestion() {
+      saveAnswer();
+      if (currentIndex >= questions.length - 1) {
+        finishExam();
+        return;
+      }
+      currentIndex += 1;
+      renderQuestion();
+      startTimer();
+    }
+
+    function finishExam() {
+      if (timerId) clearInterval(timerId);
+      document.body.classList.remove('exam-bg');
+      document.body.classList.add('done-bg');
+      el('examScreen').classList.add('hidden');
+      el('doneScreen').classList.remove('hidden');
+      const answeredCount = answers.filter(a => a).length;
+      el('summaryText').textContent = `${candidateName} (${candidateEmail}) a terminé l'examen. ${answeredCount} réponses sur ${questions.length} contiennent du texte.`;
+      const list = el('answersList');
+      list.innerHTML = '';
+      questions.forEach((q, i) => {
+        const item = document.createElement('div');
+        item.className = 'answer-item';
+        const h3 = document.createElement('h3');
+        h3.textContent = `Question ${i + 1}`;
+        const qDiv = document.createElement('div');
+        qDiv.className = 'q';
+        qDiv.textContent = q;
+        const aDiv = document.createElement('div');
+        aDiv.className = 'a';
+        aDiv.textContent = answers[i] || '[Aucune réponse]';
+        item.appendChild(h3);
+        item.appendChild(qDiv);
+        item.appendChild(aDiv);
+        list.appendChild(item);
+      });
+      const lines = answers.map((a, i) => `Question ${i + 1}: ${questions[i]}\nRéponse: ${a || '[Aucune réponse]'}`);
+      el('fullText').value = `Nom: ${candidateName}\nEmail: ${candidateEmail}\n\n${lines.join('\n\n--------------------------------\n\n')}`;
+    }
+
+    function sendEmail() {
+      const to = 'hassane.hotait@hotmail.com';
+      const subject = `Examen écrit - ${candidateName}`;
+      const body = el('fullText').value;
+      window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    el('answerBox').addEventListener('input', saveAnswer);
+  </script>
+</body>
+</html>
